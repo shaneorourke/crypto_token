@@ -1,0 +1,149 @@
+** Note **
+Any command to enter into linux will be prefixed with "CMD:", execute the line of the command AFTER that, do not include "CMD:"
+
+1. Set up Linux Machine (Using Linode https://www.linode.com)
+
+- Create an account
+- "Create" Node
+- Choose Distribution - Ubuntu 21.10+
+- Select Region - Closest to you
+- Choose plan - Shared CPU - Nanode 1GB
+- Define Label
+- Add Root Password
+
+2. Connect to Linode Machine
+- In Linode - Node - copy ssh command
+- use this to ssh into Linode machine
+
+3. Create Crypto Currency Wallet to hold SOLANA (SOL)
+- CMD:sudo apt-get update
+- CMD:sudo apt-get dist-upgrade
+- CMD:sudo apt install libudev-dev
+- CMD:sudo apt install libssl-dev pkg-config -y
+- CMD:sudo apt install build-essential -y
+
+3a. Install solana tools
+- CMD:sh -c "$(curl -sSfL https://release.solana.com/v1.8.5/install)"
+- exit out of session and log back in (to make sure PATH variables are updated in shell)
+
+3b. Create Wallet
+- CMD:solana-keygen new
+- enter past passphrase
+- Copy and paste somewhere the pubkey (this is the wallets public address)
+- Copy and paste somewhere the passphrases (this is import to restore the wallet!) - KEEP THIS!
+
+3c. Check Wallet
+- CMD:solana balance 
+- should be 0, but there at least
+
+4. Add solana (SOL) to the wallet
+- Go to an exchange, buy at least 0.05 SOL
+- SEND SOL from the exchange to pubkey (step 3b.3)
+
+4a. Check Wallet
+- CMD:solana balance 
+- should be 0, but there at least
+
+5. Add some more tools to linux machine
+- install RUST -->
+- CMD:curl https://sh.rustup.rs -sSf | sh
+- 1 for default installation
+- exit out of session and log back in (to make sure PATH variables are updated in shell)
+
+6. Install Solana Token Program (A cli tool to create a SOL token on the SOL blockchain)
+- CMD:cargo install spl-token-cli
+- This takes a while!
+
+7. Create the token!
+- CMD:spl-token create-token
+- Copy and Paste Token Address (e.g. Creating token vAdedkjsaksyi78yiu3haskejhiuhAkljn)
+
+8. Create an account for the token
+- For the next one replace vAdedkjsaksyi78yiu3haskejhiuhAkljn with your token address 7.2
+- CMD:spl-token create-account vAdedkjsaksyi78yiu3haskejhiuhAkljn
+- Copy and Paste Token Account (e.g. Creating token 3psjk58dhi7fyw4ih8w7ehfsdkjhsdfsd)
+
+
+9. MINT Tokens to go in the account
+- For the next one replace vAdedkjsaksyi78yiu3haskejhiuhAkljn with your token address 7.2
+- Also feel free to mint as many tokens as you like, below mints 1Billion e.g. 1000000000
+- EXAMPLE COMMAND: spl-token mint token-address mint-amount token-account
+- CMD:spl-token mint vAdedkjsaksyi78yiu3haskejhiuhAkljn 1000000000 3psjk58dhi7fyw4ih8w7ehfsdkjhsdfsd
+
+10. Check minted tokens
+- CMD:spl-token accounts
+
+11. Send New Token to another Accounts (I used Phantom Wallet Chrome Extension, you can use Solflare app or soemthing else) - Sending to MYSELF
+- Install Phantom Wallet Extension
+- SAVE Passphrases!!
+- Click on SOL - Deposit and Copy the deposit address e.g. 8jsdljsdkfhwek8soduhfsiuhf
+- EXAMPLE COMMAND: spl-token transfer --fund-recipient --allow-unfunded-recipient token-address 1000 deposit-address
+- ** Note --fund-recipient (pay to create account wallet if empty)
+- ** Note --allow0unfunded-recipient (Allow the above)
+- CMD: spl-token transfer --fund-recipient --allow-unfunded-recipient vAdedkjsaksyi78yiu3haskejhiuhAkljn 1000 8jsdljsdkfhwek8soduhfsiuhf
+- Check webwallet to make sure deposit was successful
+
+11a. Send to someone elses wallet
+- Use the above command 11.7 but use the recipients address as deposit-address. This will send to them
+- IT HAS TO BE A SOLANA WALLET ADDRESS - On the SOL blockchain
+
+12. Check Token on solscan
+- GO to https://solscan.io/
+- paste in the token-address account
+- you should see how many tokens are minted
+- It should be "unrecognised" as it's not yet realised
+
+13. Mint more tokens? 
+- Execute this again:
+- CMD:spl-token mint vAdedkjsaksyi78yiu3haskejhiuhAkljn 1000000000 3psjk58dhi7fyw4ih8w7ehfsdkjhsdfsd
+- CMD:solana balance
+- Should see X more but minus the amount sent to recipient in 11.
+
+14. Create a logo for your token.
+- Any token you like as long as it's .PNG and less than 200kb in size
+
+15. Use Github to store logo
+- Create github repo (create account if you need to)
+- Name it whatever you like 
+- upload existing file
+- upload logo png
+- click on the file in the repo
+- click "download"
+- this should open a tab in the browser
+- Copy the URL
+
+16. Add new token to solana token list!
+- Go to: https://github.com/solana-labs/token-list
+- Click on fork (creates a copy of the token list in your account)
+- Click on the window (just to select the browser window)
+- Press "." (the full stop / period button)
+- This will open up VS Code within the browser
+- Select "assets" -> Add new folder -> name it the same as your token address 7.2
+
+- go to src/tokens
+- copy an existing token and paste at the bottom
+- make sure that the json is formated correctly (or the merge will fail)
+- change the "address": value to be your token address 7.2
+- change the symbol to be what symbol you want e.g. ACDC
+- Change logo url to be your logo in github 15.8
+
+- click the "changes icon" (a V with dots on, it's on the left, should have a number next to it) This is OUR changes
+- Add a Message - e.g. "Adding X token"
+
+- GO back to the orignal solana labs repo https://github.com/solana-labs/token-list
+- Click "Pull Request"
+- New Pull Request
+- Click "compare across forks"
+- Click the "head" and select your version of the token-list 
+
+- Scroll down and click "Create pull request"
+
+- This takes about half an hour for the automation to merge your changes into the solana repo! 
+
+17. Check Token on solscan
+- GO to https://solscan.io/
+- paste in the token-address account
+- you should see how many tokens are minted
+- You should see your LOGO and Token Name etc (can take 30 mins to update)
+
+
