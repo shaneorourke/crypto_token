@@ -96,6 +96,11 @@ Any command to enter into linux will be prefixed with "CMD:", execute the line o
 13. Mint more tokens? 
 - Execute this again:
 - CMD:spl-token mint vAdedkjsaksyi78yiu3haskejhiuhAkljn 1000000000 3psjk58dhi7fyw4ih8w7ehfsdkjhsdfsd
+- ** Note spl-token mint token-address 1000000000 token-account
+- ** HINT to get token accounts:
+- CMD: spl-token accounts
+- ** HINT to get token address:
+- CMD: spl-token address
 - CMD:solana balance
 - Should see X more but minus the amount sent to recipient in 11.
 
