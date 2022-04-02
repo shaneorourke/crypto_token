@@ -1,0 +1,70 @@
+## There were a few issues installing solana tool on anything other than a destop dist of Ubuntu 20.4
+## This process should work on Raspberry Pi OS 
+
+### In the case of moving Linux machines (in my case I moved OFF linode to a local ubuntu desktop instance)
+## THIS CAN ONLY BE DONE IF YOU HAVE THE PASSPHRASE 3B. From Create_Crypt_Token.txt
+
+
+** Note **
+Any command to enter into linux will be prefixed with "CMD:", execute the line of the command AFTER that, do not include "CMD:"
+
+1. Set up Linux Machine (Desktop Raspberry Pi OS)
+
+2. Create Crypto Currency Wallet to hold SOLANA (SOL)
+- CMD: curl https://sh.rustup.rs -sSf | sh
+- CMD: source $HOME/.cargo/env
+- CMD: rustup component add rustfmt
+- CMD: rustup update
+- CMD: sudo apt-get update
+- CMD: sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang make
+
+3. Install solana tools
+- CMD: git clone https://github.com/solana-labs/solana.git
+- CMD: cd solana
+- CMD: cargo build
+
+- Reboot
+- CMD:cargo install spl-token-cli
+- This takes a while!
+
+4. Restore Wallet
+- CMD:solana-keygen recover
+- enter saved passphrase (from Create_Crypto_Token.txt 3b.)
+
+5. Check Wallet
+- CMD:solana balance 
+- should NOT be 0
+
+6. Check minted tokens
+- CMD:spl-token accounts
+
+7. Send Token to another Accounts (Myself to Myself)
+- EXAMPLE COMMAND: spl-token transfer --fund-recipient --allow-unfunded-recipient token-address 1000 deposit-address
+- ** HINT to get token address:
+- CMD: spl-token accounts
+- ** Note --fund-recipient (pay to create account wallet if empty)
+- ** Note --allow0unfunded-recipient (Allow the above)
+- CMD: spl-token transfer --fund-recipient --allow-unfunded-recipient vAdedkjsaksyi78yiu3haskejhiuhAkljn 1000 8jsdljsdkfhwek8soduhfsiuhf
+- Check wallet to make sure deposit was successful
+
+8. Send to someone elses wallet
+- Use the above command 11.7 but use the recipients address as deposit-address. This will send to them
+- IT HAS TO BE A SOLANA WALLET ADDRESS - On the SOL blockchain
+
+9. Mint more tokens? 
+- Execute this again:
+- CMD:spl-token mint vAdedkjsaksyi78yiu3haskejhiuhAkljn 1000000000 3psjk58dhi7fyw4ih8w7ehfsdkjhsdfsd
+- ** Note spl-token mint token-address 1000000000 token-account
+- ** HINT to get token accounts:
+- CMD: spl-token accounts
+- ** HINT to get token address:
+- CMD: spl-token address
+- Check the new tokens minted:
+- CMD:solana balance
+- Should see X more but minus the amount sent to recipient in 11.
+
+10. Check Token on solscan
+- GO to https://solscan.io/
+- paste in the token-address account
+- you should see how many tokens are minted
+- You should see your LOGO and Token Name etc (can take 30 mins to update)
