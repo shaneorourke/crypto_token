@@ -18,6 +18,7 @@ Any command to enter into linux will be prefixed with "CMD:", execute the line o
 - Reboot
 
 3. Install solana tools
+## If errors in 3. run this: CMD:sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang make
 - CMD:sh -c "$(curl -sSfL https://release.solana.com/v1.8.5/install)"
 - Reboot
 - CMD:cargo install spl-token-cli
